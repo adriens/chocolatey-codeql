@@ -21,7 +21,7 @@
     <tags>security codeql semantic code analysis query research open-source</tags>
     <licenseUrl>https://github.com/github/codeql-cli-binaries/blob/main/LICENSE.md</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <iconUrl>https://cdn.statically.io/gh/adriens/chocolatey-codeql/master/codeql_logo.png</iconUrl>
+    <iconUrl>https://cdn.statically.io/gh/adriens/chocolatey-codeql/master/codeql_logo.jpg</iconUrl>
     <releaseNotes>https://github.com/github/codeql-cli-binaries/releases/tag/v@CODEQL_VERSION@</releaseNotes>
     <docsUrl>https://codeql.github.com/docs/codeql-cli/</docsUrl>
     <bugTrackerUrl>https://github.com/github/codeql-cli-binaries/issues</bugTrackerUrl>
