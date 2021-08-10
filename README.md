@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/9q0etvjntfvth34b?svg=true)](https://ci.appveyor.com/project/adriens/chocolatey-codeql)
+[![Build status](https://ci.appveyor.com/api/projects/status/ydstnokayd3propc?svg=true)](https://ci.appveyor.com/project/adriens/chocolatey-codeql)
 [![Chocolatey](https://img.shields.io/chocolatey/v/codeql.svg)](https://chocolatey.org/packages/codeql)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/codeql.svg)](https://chocolatey.org/packages/codeql)
 
