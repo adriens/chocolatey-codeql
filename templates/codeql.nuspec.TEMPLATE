@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+           DO NOT HARDCODE THIS FILE WITH DYNAMIC VARIABLES : THIS FILE IS A TEMPLATE
+		   THAT IS PROCESSED BY AN ant build.
+-->
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata>
+    <id>codeql</id>
+    <title>CodeQL CLI</title>
+    <version>@CODEQL_VERSION@</version>
+    <authors>Github</authors>
+    <owners>Adrien Sales</owners>
+    <summary>The CodeQL CLI.</summary>
+    <description><![CDATA[Discover vulnerabilities across a codebase with CodeQL, our industry-leading
+     semantic code analysis engine. CodeQL lets you query code as though it were data.
+    
+    Write a query to find all variants of a vulnerability, eradicating it forever. Then share your
+    query to help others do the same. 
+    ]]></description>
+    <projectUrl>https://securitylab.github.com/tools/codeql/</projectUrl>
+    <tags>security codeql semantic code analysis query research open-source</tags>
+    <licenseUrl>https://github.com/github/codeql-cli-binaries/blob/main/LICENSE.md</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <iconUrl>https://cdn.statically.io/gh/adriens/chocolatey-codeql/master/codeql_logo.png</iconUrl>
+    <releaseNotes>https://github.com/github/codeql-cli-binaries/releases/tag/v@CODEQL_VERSION@</releaseNotes>
+    <docsUrl>https://codeql.github.com/docs/codeql-cli/</docsUrl>
+    <bugTrackerUrl>https://github.com/github/codeql-cli-binaries/issues</bugTrackerUrl>
+    <!--<mailingListUrl></mailingListUrl>-->
+    <packageSourceUrl>https://github.com/adriens/chocolatey-codeql</packageSourceUrl>
+    <projectSourceUrl>https://github.com/github/codeql-cli-binaries</projectSourceUrl>
+    <dependencies>
+        <!--<dependency id="jdk11"/>-->
+    </dependencies>
+  </metadata>
+  
+  <files>
+    <file src="tools\**" target="tools\" />
+  </files>
+
+</package>

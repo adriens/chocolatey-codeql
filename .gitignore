@@ -1,0 +1,4 @@
+/work/*.zip
+/*.ps1
+/codeql.nuspec
+/tools/*.ps1

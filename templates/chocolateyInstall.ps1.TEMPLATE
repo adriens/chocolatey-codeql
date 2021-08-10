@@ -1,0 +1,22 @@
+﻿$tools = Split-Path $MyInvocation.MyCommand.Definition
+$package = Split-Path $tools
+$codeql_home = Join-Path $package 'codeql-win64/codeql'
+$codeql_bat = Join-Path $codeql_home 'codeql.exe'
+
+
+Install-ChocolateyZipPackage `
+    -PackageName 'codeql' `
+    -Url 'https://github.com/github/codeql-cli-binaries/releases/download/v@CODEQL_VERSION@/codeql-win64.zip' `
+    -Checksum '@SHA512@' `
+    -ChecksumType 'SHA512' `
+    -UnzipLocation $package
+
+Install-ChocolateyEnvironmentVariable `
+    -VariableName 'CODEQL_HOME' `
+    -VariableValue $codeql_home `
+    -VariableType 'Machine'
+
+
+Install-BinFile -Name 'codeql' -Path $codeql_bat
+
+Update-SessionEnvironment

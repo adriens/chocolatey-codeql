@@ -1,0 +1,114 @@
+<?xml version = "1.0"?>
+<project name = "CodeQL chocolatey package build helper" 
+         default = "info">
+    <target name = "info"
+            description="Show some infos abot this build file." depends="load.properties">
+        <echo>Ant build that helps preparing CodeQL CLI chocolatey releases.</echo>
+    </target>
+   
+    <target name="load.properties"
+            description = "Load external parametrized properties.">
+        <loadproperties>
+            <file file="codeql.properties"/>
+        </loadproperties>
+        <echo>CodeQL target version : &lt;${codeql.version}&gt;</echo>
+    </target>
+   
+    <target name = "clean" description="Clean all build result files.">
+        <echo>Cleaning generated NUGETS generated package (nupkg) and other dynamic build files like *.ps1.</echo>
+        <delete>
+            <fileset dir="." includes="*.nupkg"/>
+            <fileset dir="." includes="*.nuspec"/>
+            <fileset dir="." includes="**/*.ps1"/>
+        </delete>
+    </target>
+   
+    <target name="get.sha512"
+            depends="load.properties"
+            description="Get the SHA512 checksum from Zoe Github official release.">
+
+        <get src="https://github.com/github/codeql-cli-binaries/releases/download/v${codeql.version}/codeql-win64.zip"
+             dest="work/codeql-win64.zip"/>
+        <checksum file="work/codeql-win64.zip"
+            algorithm="SHA-512"
+            property="codeql.checksum"/>
+        <echo>CodeQL checksum : &lt;${codeql.checksum}&gt;</echo>
+    </target>
+    
+    <target name="prepare.build.files"
+            description="Inject dynamic variables in chocolatey build files."
+            depends="get.sha512">
+        <echo>Preparing &lt;codeql.nuspec&gt; file : injecting codeql version...</echo>
+        <copy file="templates/codeql.nuspec.TEMPLATE" tofile="codeql.nuspec"/>
+        <echo>Injecting target codeql version in nuspec file...</echo>
+        <replace file="codeql.nuspec" token="@CODEQL_VERSION@" value="${codeql.version}"/>
+        <echo>nuspec file prepared.</echo>
+        
+        <echo>Preparing &lt;chocolateyInstall.ps1&gt; ...</echo>
+        <copy file="templates/chocolateyInstall.ps1.TEMPLATE" tofile="tools/chocolateyInstall.ps1"/>
+        <replace file="tools/chocolateyInstall.ps1" token="@CODEQL_VERSION@" value="${codeql.version}"/>
+        <replace file="tools/chocolateyInstall.ps1" token="@SHA512@" value="${codeql.checksum}"/>
+        <echo>&lt;chocolateyInstall.ps1&gt; file prepared.</echo>
+        
+        <echo>Preparing &lt;chocolateyUninstall.ps1&gt; ...</echo>
+        <copy file="templates/chocolateyUninstall.ps1.TEMPLATE" tofile="tools/chocolateyUninstall.ps1"/>
+        <replace file="tools/chocolateyUninstall.ps1" token="@CODEQL_VERSION@" value="${codeql.version}"/>
+        <echo>&lt;chocolateyUninstall.ps1&gt; file prepared.</echo>
+        
+		<echo>Preparing &lt;release.ps1&gt; ...</echo>
+        <copy file="templates/release.ps1.TEMPLATE" tofile="release.ps1"/>
+        <replace file="release.ps1" token="@CODEQL_VERSION@" value="${codeql.version}"/>
+        <echo>&lt;release.ps1&gt; file prepared.</echo>
+    </target>
+    
+    <target name="prepare"
+            description="Prepare all the files required to run a &lt;choco install -fdv codeql.nuspec&gt;"
+            depends="clean,prepare.build.files">
+        <echo>Ready to run choco build :</echo>
+        <echo>choco install -fdv codeql.nuspec</echo>
+    </target>
+    
+    <target name="make" 
+            depends="prepare"
+            description="Build AND INSTALL codeql from the locally built chocolatey package.">
+            <exec executable="cmd">
+                <arg value="/c"/>
+                <arg value="choco install --yes -fdv codeql.nuspec"/>
+            </exec>
+            
+            <echo>Release command :</echo>
+            <echo>choco push codeql.${codeql.version}.nupkg -s https://chocolatey.org/ -apikey *******</echo>
+    </target>
+	
+	<target name="get-release-command" 
+            depends="load.properties"
+            description="Just get the release command.">
+            <echo>Release command :</echo>
+            <echo>choco push codeql.${codeql.version}.nupkg -s https://chocolatey.org/ -apikey %CHOCO_APIKEY%</echo>
+    </target>
+	
+	<target name="get-ps1-command" 
+            depends="load.properties"
+            description="Just get the release command.">
+            <echo>Release command :</echo>
+            <echo>choco push codeql.${codeql.version}.nupkg -s https://chocolatey.org/ -apikey %CHOCO_APIKEY%</echo>
+    </target>
+    
+    <target name="choco-uninstall" 
+            depends="clean"
+            description="Uninstall codeql.">
+            <exec executable="cmd">
+                <arg value="/c"/>
+                <arg value="choco uninstall --yes codeql"/>
+            </exec>
+    </target>
+    
+    <target name="choco-install" 
+            depends="clean"
+            description="Install codeql from central chocolatey repo.">
+            <exec executable="cmd">
+                <arg value="/c"/>
+                <arg value="choco install codeql"/>
+            </exec>
+    </target>
+</project>
