@@ -74,5 +74,3 @@ Upgrade process:
 2. `ant make`
 3. Install locally `choco install -fdv codeql.nuspec`
 4. Test command line `codeql version`
-
-
